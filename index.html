@@ -22,7 +22,7 @@
             <button id="scanBtn" class="btn btn-primary">🔍 Scanner la zone</button>
         </div>
         <div class="actions">
-            <!-- NOUVEAU BOUTON -->
+            <!-- BOUTON EXPLICATIONS -->
             <button id="helpBtn" class="btn btn-blue" style="margin-right: 10px;">📖 Fonctionnement</button>
             <button id="exportBtn" class="btn btn-success" style="display: none;">⬇️ Exporter CRM</button>
         </div>
@@ -77,32 +77,42 @@
         </aside>
     </div>
 
-    <!-- NOUVELLE FENÊTRE MODALE (DOCUMENTATION) -->
+    <!-- FENÊTRE MODALE (DOCUMENTATION ENRICHIE) -->
     <div id="helpModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="closeHelpBtn">&times;</span>
-            <h2>⚡ ChargeScout - Mode d'emploi</h2>
+            <h2>⚡ ChargeScout - Fonctionnement & Mode d'emploi</h2>
             
-            <p><strong>ChargeScout</strong> est votre outil de géo-prospection pour identifier les "Zones Blanches" : des établissements commerciaux ou logistiques sans bornes de recharge concurrentes installées sur leur parking.</p>
+            <p><strong>ChargeScout</strong> est un outil de géo-prospection foncière. Il permet d'identifier les "Zones Blanches" : des établissements commerciaux ou logistiques à fort potentiel, qui n'ont pas encore de bornes de recharge concurrentes installées sur leur parking.</p>
             
-            <h3>🎯 1. Choisir sa cible</h3>
+            <h3>⚙️ Comment ça marche ? (La technique)</h3>
+            <p>L'algorithme de ChargeScout croise en temps réel trois bases de données publiques (Open Data) :</p>
             <ul>
-                <li><strong>Hub Public (Retail) :</strong> Cible les hypermarchés (Loi LOM), les hôtels et centres commerciaux. L'outil analyse aussi l'intelligence géographique (proximité d'un axe routier, d'un café, ou d'un poste électrique).</li>
-                <li><strong>Hub Flotte :</strong> Cible les entrepôts et les professionnels de la logistique pour la recharge de camions/VUL (données géographiques désactivées pour plus de lisibilité).</li>
+                <li><strong>1. API Sirene (État Français) :</strong> Détecte les entreprises sur la carte en filtrant leurs codes NAF (secteurs d'activité) et récupère leurs adresses et numéros de SIRET.</li>
+                <li><strong>2. API ODRÉ (Réseaux Énergies) :</strong> Interroge le registre national des bornes existantes pour vérifier si des Points de Charge (PDC) concurrents sont déjà implantés autour du site.</li>
+                <li><strong>3. API OpenStreetMap :</strong> Analyse le territoire pour vérifier la viabilité économique du projet (trafic, réseau électrique, confort usager).</li>
             </ul>
 
-            <h3>📡 2. Le Radar IRVE</h3>
-            <p>Il définit la sensibilité de détection de la concurrence. Si vous cherchez un terrain pour un gros Hub autoroutier, utilisez 1 km. Si vous prospectez des parkings d'hôtels urbains, 200m suffisent.</p>
+            <h3>🌍 Les badges d'Intelligence Géographique (Mode Retail)</h3>
+            <p>Pour qu'un hub public soit rentable, le foncier doit être stratégique. Si ces conditions sont réunies, l'outil affiche des badges violets :</p>
+            <ul>
+                <li><strong>☕ Commodités OK :</strong> Présence confirmée d'un café, restaurant ou fast-food à <strong>moins de 300 mètres</strong>. Indispensable pour que le conducteur patiente confortablement pendant sa session de recharge.</li>
+                <li><strong>🛣️ Axe Routier :</strong> Le site se trouve à <strong>moins de 1,5 km</strong> d'une bretelle d'autoroute ou d'une route nationale majeure. Garantit un flux de clients en itinérance.</li>
+                <li><strong>⚡ Poste Source OK :</strong> Présence d'une sous-station électrique Enedis/RTE à <strong>moins de 2 km</strong>. C'est crucial pour l'installation d'un hub haute puissance (THP), car cela limite drastiquement le coût des travaux de raccordement.</li>
+            </ul>
 
-            <h3>🟢 Libres vs 🔴 Pris</h3>
-            <p>Si l'API de l'État ne trouve <strong>aucun Point de Charge (PDC)</strong> dans le radar défini, le site est classé 🟢 (Prospect Idéal). Sinon, il passe en 🔴 et l'outil vous donne le nom du réseau concurrent présent.</p>
+            <h3>🎯 Ciblage & Radar</h3>
+            <ul>
+                <li><strong>Cible Retail / Flotte :</strong> Le "Retail" cible la grande distribution (Loi LOM) et l'hôtellerie (active l'intelligence Géo). La "Flotte" cible la logistique et les transporteurs.</li>
+                <li><strong>Radar IRVE :</strong> Ajustez le rayon de tolérance (200m à 1km). S'il n'y a <strong>aucune borne</strong> dans ce rayon, le site passe en 🟢 (Prospect Idéal). S'il y a de la concurrence, il passe en 🔴 et l'outil affiche le nom du réseau implanté.</li>
+            </ul>
             
             <h3>⬇️ L'Export CRM</h3>
-            <p>L'outil est intelligent : utilisez les filtres et la barre de recherche sur la gauche. <strong>L'export CSV ne téléchargera que les résultats visibles à l'écran !</strong></p>
+            <p><strong>Astuce de pro :</strong> L'export CSV ne télécharge <strong>que ce qui est visible à l'écran</strong>. Utilisez le filtre "🟢 Libres" ou cherchez une enseigne spécifique (ex: "Lidl") avant de cliquer sur Exporter pour avoir un fichier propre, prêt à être importé dans Salesforce ou HubSpot.</p>
         </div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="app.js?v=22"></script>
+    <script src="app.js?v=23"></script>
 </body>
 </html>
