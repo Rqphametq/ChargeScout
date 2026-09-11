@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChargeScout - Lead Gen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="logo"><span class="icon">⚡</span> ChargeScout</div>
+        
+        <div class="controls">
+            <select id="modeSelect" class="input-modern">
+                <option value="RETAIL">Cible : Hub Public (Retail, Hôtels)</option>
+                <option value="FLOTTE">Cible : Hub Flotte (Logistique)</option>
+            </select>
+            <div id="radiusBadge" class="badge badge-gray">Rayon : -- km</div>
+            <button id="scanBtn" class="btn btn-primary">🔍 Scanner la zone</button>
+        </div>
+        <div class="actions">
+            <!-- NOUVEAU BOUTON -->
+            <button id="helpBtn" class="btn btn-blue" style="margin-right: 10px;">📖 Fonctionnement</button>
+            <button id="exportBtn" class="btn btn-success" style="display: none;">⬇️ Exporter CRM</button>
+        </div>
+    </header>
+
+    <div id="progressBarContainer"><div id="progressFill"></div></div>
+
+    <div class="main-container">
+        <div id="map"></div>
+        
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">Pipeline Foncière</h2>
+                <span id="resultCount" class="badge badge-gray">0</span>
+            </div>
+            
+            <div id="statusText" class="status-text">Déplacez la carte pour évaluer le rayon.</div>
+            
+            <div class="sidebar-filters">
+                <input type="text" id="searchInput" class="input-modern full-width" placeholder="Filtrer une enseigne (ex: Lidl)...">
+                
+                <div class="filter-controls">
+                    <div class="toggles">
+                        <label class="toggle-label"><input type="checkbox" id="filterZoneBlanche" checked> 🟢 Libres</label>
+                        <label class="toggle-label"><input type="checkbox" id="filterConcurrence" checked> 🔴 Pris</label>
+                    </div>
+                    
+                    <select id="sortSelect" class="input-modern select-small">
+                        <option value="default">Tri par défaut</option>
+                        <option value="status">Priorité (🟢 d'abord)</option>
+                    </select>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem; gap:1rem;">
+                    <span style="font-size:0.8rem; color:var(--text-muted); font-weight: 500; display:flex; align-items:center;">
+                        Radar IRVE 
+                        <span class="tooltip">ⓘ
+                            <span class="tooltip-text">Définit la distance maximale autour de l'établissement cible pour chercher des bornes de recharge concurrentes déjà existantes.</span>
+                        </span> :
+                    </span>
+                    <select id="irveRadiusSelect" class="input-modern select-small" style="flex-grow:1; cursor: pointer;">
+                        <option value="200">200m (Proximité immédiate)</option>
+                        <option value="500" selected>500m (Standard Retail)</option>
+                        <option value="1000">1 km (Z.I & Périphérie)</option>
+                    </select>
+                </div>
+            </div>
+
+            <ul id="resultsList" class="results-list">
+                <li class="empty-state"><p>Aucun scan effectué.</p></li>
+            </ul>
+        </aside>
+    </div>
+
+    <!-- NOUVELLE FENÊTRE MODALE (DOCUMENTATION) -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeHelpBtn">&times;</span>
+            <h2>⚡ ChargeScout - Mode d'emploi</h2>
+            
+            <p><strong>ChargeScout</strong> est votre outil de géo-prospection pour identifier les "Zones Blanches" : des établissements commerciaux ou logistiques sans bornes de recharge concurrentes installées sur leur parking.</p>
+            
+            <h3>🎯 1. Choisir sa cible</h3>
+            <ul>
+                <li><strong>Hub Public (Retail) :</strong> Cible les hypermarchés (Loi LOM), les hôtels et centres commerciaux. L'outil analyse aussi l'intelligence géographique (proximité d'un axe routier, d'un café, ou d'un poste électrique).</li>
+                <li><strong>Hub Flotte :</strong> Cible les entrepôts et les professionnels de la logistique pour la recharge de camions/VUL (données géographiques désactivées pour plus de lisibilité).</li>
+            </ul>
+
+            <h3>📡 2. Le Radar IRVE</h3>
+            <p>Il définit la sensibilité de détection de la concurrence. Si vous cherchez un terrain pour un gros Hub autoroutier, utilisez 1 km. Si vous prospectez des parkings d'hôtels urbains, 200m suffisent.</p>
+
+            <h3>🟢 Libres vs 🔴 Pris</h3>
+            <p>Si l'API de l'État ne trouve <strong>aucun Point de Charge (PDC)</strong> dans le radar défini, le site est classé 🟢 (Prospect Idéal). Sinon, il passe en 🔴 et l'outil vous donne le nom du réseau concurrent présent.</p>
+            
+            <h3>⬇️ L'Export CRM</h3>
+            <p>L'outil est intelligent : utilisez les filtres et la barre de recherche sur la gauche. <strong>L'export CSV ne téléchargera que les résultats visibles à l'écran !</strong></p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js?v=22"></script>
+</body>
+</html>

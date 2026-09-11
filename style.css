@@ -1,0 +1,127 @@
+:root {
+    --bg-main: #f8fafc; --bg-panel: #ffffff;
+    --text-main: #0f172a; --text-muted: #64748b;
+    --primary: #2563eb; --primary-hover: #1d4ed8;
+    --success: #10b981; --success-bg: #d1fae5; --success-text: #065f46;
+    --danger: #ef4444; --danger-bg: #fee2e2; --danger-text: #991b1b;
+    --border: #e2e8f0; --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg-main); color: var(--text-main); margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+/* TOPBAR */
+.topbar { background: var(--bg-panel); padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); z-index: 1000; }
+.logo { font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+.controls { display: flex; align-items: center; gap: 1rem; }
+.input-modern { padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border); background: #f8fafc; color: var(--text-main); font-size: 0.9rem; outline: none; }
+.input-modern:focus { border-color: var(--primary); }
+
+.btn { padding: 0.5rem 1rem; border-radius: 6px; border: none; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: 0.2s; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
+.btn-success { background: var(--success); color: white; }
+.btn:disabled { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
+
+.badge { padding: 0.25rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+.badge-gray { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+.badge-blue { background: #dbeafe; color: #1e40af; }
+.badge-green { background: var(--success-bg); color: var(--success-text); }
+.badge-red { background: var(--danger-bg); color: var(--danger-text); }
+
+/* NOUVEAU : Badge GeoIntel (Violet) */
+.badge-purple { background: #f3e8ff; color: #6b21a8; border: 1px solid #d8b4fe; }
+
+#progressBarContainer { width: 100%; height: 3px; background: transparent; z-index: 1001; }
+#progressFill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s; }
+
+/* MAIN LAYOUT */
+.main-container { display: flex; flex-grow: 1; height: calc(100vh - 60px); }
+#map { flex-grow: 1; background: #e2e8f0; z-index: 0; }
+
+/* SIDEBAR */
+.sidebar { width: 450px; background: var(--bg-panel); border-left: 1px solid var(--border); display: flex; flex-direction: column; z-index: 10; box-shadow: -4px 0 15px rgba(0,0,0,0.03);}
+.sidebar-header { padding: 1.25rem 1.5rem 0.5rem; display: flex; justify-content: space-between; align-items: center; }
+.sidebar-title { margin: 0; font-size: 1.1rem; font-weight: 600; }
+.status-text { padding: 0 1.5rem 1rem; font-size: 0.85rem; color: var(--text-muted); border-bottom: 1px solid var(--border); margin: 0; }
+
+.sidebar-filters { padding: 1rem 1.5rem; background: #f8fafc; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.75rem; }
+.full-width { width: 100%; box-sizing: border-box; }
+.filter-controls { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.toggles { display: flex; gap: 0.75rem; font-size: 0.85rem; }
+.toggle-label { display: flex; align-items: center; gap: 0.3rem; cursor: pointer; user-select: none; }
+.select-small { padding: 0.3rem 0.5rem; font-size: 0.8rem; flex-shrink: 0; }
+
+.tooltip { position: relative; display: inline-block; cursor: help; color: var(--primary); font-weight: bold; margin-left: 0.2rem; }
+.tooltip .tooltip-text { visibility: hidden; width: 220px; background-color: #1e293b; color: #fff; text-align: center; border-radius: 6px; padding: 0.5rem; position: absolute; z-index: 9999; bottom: 125%; left: 50%; margin-left: -110px; opacity: 0; transition: opacity 0.3s; font-size: 0.75rem; font-weight: normal; line-height: 1.4; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.tooltip .tooltip-text::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: #1e293b transparent transparent transparent; }
+.tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
+
+.results-list { list-style: none; padding: 0; margin: 0; overflow-y: auto; flex-grow: 1; background: #f1f5f9; }
+
+/* CARTE RESULTAT */
+.result-card { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); background: #ffffff; cursor: pointer; transition: 0.2s; border-left: 4px solid transparent; margin-bottom: 4px; }
+.result-card:hover { background: #f8fafc; border-left: 4px solid var(--primary); }
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+.card-header h3 { margin: 0; font-size: 1rem; font-weight: 700; color: #0f172a; max-width: 70%; line-height: 1.2;}
+.card-address { margin: 0 0 0.5rem 0; font-size: 0.85rem; color: #64748b; }
+
+.card-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.2rem; }
+.card-reseaux { font-size: 0.85rem; color: #b91c1c; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed var(--border); }
+
+/* NOUVEAU : Conteneur de l'intelligence géographique */
+.card-intel { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed var(--border); }
+
+.empty-state { padding: 3rem 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+.custom-pin { border-radius: 50%; border: 2px solid #ffffff; box-shadow: 0 3px 6px rgba(0,0,0,0.4); }
+.pin-green { background-color: var(--success); }
+.pin-red { background-color: var(--danger); }
+.leaflet-popup-content-wrapper { border-radius: 8px; }
+
+/* --- BOUTON SECONDAIRE & MODALE --- */
+.btn-blue { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+.btn-blue:hover { background: #bfdbfe; }
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 9999; 
+    left: 0; 
+    top: 0; 
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(15, 23, 42, 0.7); 
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: 5% auto;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    width: 60%;
+    max-width: 800px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    position: relative;
+    color: var(--text-main);
+    line-height: 1.6;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-content h2 { margin-top: 0; color: var(--primary); }
+.modal-content h3 { border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-top: 1.5rem; }
+.modal-content ul { padding-left: 1.5rem; }
+.modal-content li { margin-bottom: 0.5rem; }
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: var(--text-muted);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.close-btn:hover { color: var(--danger); }
